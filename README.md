@@ -1,6 +1,6 @@
 # apod
 
-A Flutter project to show APOD data.
+A new Flutter project.
 
 ## Getting Started
 

@@ -21,7 +21,7 @@ class _APODState extends State<APOD> {
     // TODO: implement initState
     super.initState();
 
-    controller.findData(context: context);
+    controller.findData(context: context,isToday: true);
   }
   @override
   Widget build(BuildContext context) {

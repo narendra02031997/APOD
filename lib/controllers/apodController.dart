@@ -2,6 +2,7 @@ import 'package:apod/core/restApis/restApi.dart';
 import 'package:apod/model/ApodResponseModel.dart';
 import 'package:apod/utils/extras/extras.dart';
 import 'package:apod/utils/snackBar/mySnackbar.dart';
+import 'package:apod/utils/strings/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,7 +13,7 @@ class ApodController extends GetxController {
   RestApi restApi = RestApi();
   var isLoading = false.obs;
 
-  findData({required BuildContext context}) async {
+  findData({required BuildContext context, bool isToday = false}) async {
     ApodResponseModel? apodResponseModel =
         await restApi.getApodData(date: getFormattedDate(date: date));
 
@@ -21,8 +22,7 @@ class ApodController extends GetxController {
       description = apodResponseModel.explanation;
       if (apodResponseModel.hdurl == null) {
         mySnackbar(
-            description: 'Image not found on this date',
-            context: context);
+            description: 'Image not found on this date', context: context);
       } else {
         image = apodResponseModel.hdurl;
       }
@@ -30,8 +30,14 @@ class ApodController extends GetxController {
       Get.back();
     } else {
       mySnackbar(
-          description: 'Something went wrong please try again later',
+          description: isToday
+              ? 'No data available for today. Showing default data'
+              : 'Something went wrong please try again later',
           context: context);
+      title = DEFAULT_TITLE;
+      description = DEFAULT_DESCRIPTION;
+      image = DEFAULT_IMAGE;
+      update();
     }
   }
 
